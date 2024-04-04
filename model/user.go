@@ -8,7 +8,3 @@ type User struct {
 	Email	string
 	senha	string
 }
-
-func UserFunc() {
-	fmt.Printf("oi")
-}

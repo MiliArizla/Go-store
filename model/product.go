@@ -1,7 +1,5 @@
 package model
 
-import "fmt"
-
 type Product struct {
 	ProductId    string
 	Name   string
@@ -10,8 +8,4 @@ type Product struct {
 	Value float64
 	Quantity int
 	Image string
-}
-
-func ProductFunc() {
-	fmt.Printf("oi")
 }

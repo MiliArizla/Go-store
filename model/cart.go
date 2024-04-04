@@ -1,7 +1,5 @@
 package model
 
-import "fmt"
-
 type Cart struct {
 	Id	string
 	UserId	string
@@ -13,8 +11,4 @@ type Cart struct {
 type InfoProduct struct {
 	ProductId string
 	ProductQuantity int
-}
-
-func CartFunc() {
-	fmt.Printf("oi")
 }
