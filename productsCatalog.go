@@ -1,6 +1,8 @@
 package main
 
 import (
+	"fmt"
+
 	"github.tools.sap/I586129/loja-digport-backend/model"
 )
 
@@ -8,31 +10,68 @@ func productsCatalog() []model.Product {
 	productsCatalog := []model.Product {
 		{
 		ProductId: "01",
-		Name: "Quadro ",
-		Description: "Blusa Rosa Feminina manga longa",
-		Category: "Blusa",
-		Value: 25.99,
+		Name: "Quadrinho Decorativo",
+		Description: "Quadrinho Decorativo",
+		Category: "Quadro",
+		Value: 15.99,
 		Quantity: 5,
 		Image: "image",
 		},
 		{
 			ProductId: "02",
-			Name: "Blusa Verde",
-			Description: "Blusa verde feminina manga curta",
-			Category: "Blusa",
-			Value: 26.99,
+			Name: "Planta de Teto",
+			Description: "Planta de Teto",
+			Category: "Planta",
+			Value: 13.99,
 			Quantity: 10,
 			Image: "Image2",
 		},
 		{
 			ProductId: "03",
-			Name: "Camisa",
-			Description: "Camisa branca masculina",
-			Category: "Camisa",
-			Value: 30.00,
+			Name: "Poltrona Branca",
+			Description: "Poltrona Branca",
+			Category: "Poltrona",
+			Value: 60.00,
 			Quantity: 20,
-			Image: "https://todaatual.com/wp-content/uploads/2015/02/QuadrosDecorativosParaSala-1.jpg",
+			Image: "Image3",
 		},
-}
+		{
+			ProductId: "04",
+			Name: "Abajur Moderno",
+			Description: "Abajur com design moderno e sofisticado",
+			Category: "Iluminação",
+			Value: 35.00,
+			Quantity: 15,
+			Image: "Image4",
+	},
+	{
+			ProductId: "05",
+			Name: "Tapete Persa",
+			Description: "Tapete Persa, trama em algodão com detalhes em vermelho",
+			Category: "Tapetes",
+			Value: 120.00,
+			Quantity: 10,
+			Image: "Image5",
+	},
+	{
+			ProductId: "06",
+			Name: "Vaso de Cerâmica",
+			Description: "Vaso de Cerâmica, cor terra cota, perfeito para plantas de interior",
+			Category: "Vasos",
+			Value: 18.00,
+			Quantity: 30,
+			Image: "Image6",
+	},
+	}
+
 	return productsCatalog
+};
+
+func getProductByName(name string) (*model.Product, error) {
+	for _, product := range productsCatalog() {
+		if product.Name == name {
+			return &product, nil
+	}
+}
+	return nil, fmt.Errorf("product does not exist")
 };

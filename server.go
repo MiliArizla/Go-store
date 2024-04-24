@@ -12,7 +12,22 @@ func StartServer() {
 }
 
 func productsHandler(w http.ResponseWriter, r *http.Request) {
-	products := productsCatalog()
 	
-	json.NewEncoder(w).Encode(products)
+	name := r.URL.Query().Get("name")
+	
+	if name != "" {
+		productName, err := getProductByName(name)
+		
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusNotFound)
+		} else {
+			json.NewEncoder(w).Encode(productName)
+		}
+	} else {
+
+		products := productsCatalog()
+
+		json.NewEncoder(w).Encode(products)
+
+	}
 }
