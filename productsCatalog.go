@@ -6,8 +6,7 @@ import (
 	"github.tools.sap/I586129/loja-digport-backend/model"
 )
 
-func productsCatalog() []model.Product {
-	productsCatalog := []model.Product {
+var productsCatalog []model.Product = []model.Product {
 		{
 		ProductId: "01",
 		Name: "Quadrinho Decorativo",
@@ -62,16 +61,24 @@ func productsCatalog() []model.Product {
 			Quantity: 30,
 			Image: "Image6",
 	},
-	}
-
-	return productsCatalog
 };
 
+
 func getProductByName(name string) (*model.Product, error) {
-	for _, product := range productsCatalog() {
+	for _, product := range productsCatalog {
 		if product.Name == name {
 			return &product, nil
 	}
 }
 	return nil, fmt.Errorf("product does not exist")
 };
+
+func registerProduct(newProduct model.Product) error {
+	for _, products := range productsCatalog{
+		if products.ProductId == newProduct.ProductId {
+			return fmt.Errorf("ID Repetido")
+		}
+	}
+	productsCatalog = append(productsCatalog, newProduct)
+	return nil
+}
