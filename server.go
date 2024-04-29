@@ -45,9 +45,14 @@ func getProducts(w http.ResponseWriter, r *http.Request) {
 
 func addProduct(w http.ResponseWriter, r *http.Request) {
 	var product model.Product
+
 	json.NewDecoder(r.Body).Decode(&product)
 	
-	registerProduct(product)
+	err := registerProduct(product)
+	if err == nil{
+		w.WriteHeader(http.StatusCreated)
+	} else {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+	}
 
-	w.WriteHeader(http.StatusCreated)
 }
