@@ -1,10 +1,12 @@
 package main
 
-func main() {
+import (
+	"fmt"
 
-	// produtos := productsCatalog()
-	// fmt.Println("Esse é o catálogo da Loja da Mili: ", productsCatalog())
-	// productName,err := getProductByName("Quadro")
-	// fmt.Println("O produto procurado é:", *productName,err)
+	_ "github.com/lib/pq"
+)
+
+func main() {
+	fmt.Println("Server Started")
 	StartServer()
 }
