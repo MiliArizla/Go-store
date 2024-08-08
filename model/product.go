@@ -1,6 +1,9 @@
 package model
 
 import (
+	"database/sql"
+	"fmt"
+
 	"github.tools.sap/I586129/loja-digport-backend/db"
 )
 
@@ -29,7 +32,6 @@ var quantity int
 var image string
 
 func SearchAllProducts() []Product {
-
 	db := db.ConnectToDataBase()
 
 	result, err := db.Query("SELECT * FROM product")
@@ -64,3 +66,34 @@ func SearchAllProducts() []Product {
 	return products
 
 }
+
+func SearchProductByName(productName string) Product {
+	db := db.ConnectToDataBase()
+
+	res := db.QueryRow("SELECT * FROM product where name = $1", productName)
+
+	err := res.Scan(&id, &name, &description, &category, &price, &quantity, &image)
+	if err == sql.ErrNoRows {
+		fmt.Printf("Product not found %s\n", name)
+
+	} else if err != nil {
+		panic(err.Error())
+	}
+
+	var p Product
+	p.ProductId = id
+	p.Name = name
+	p.Description = description
+	p.Category = category
+	p.Price = price
+	p.Quantity = quantity
+	p.Image = image
+
+	defer db.Close()
+	return p
+	
+}
+
+// func CreateProduct(prod Product) error {
+
+// }

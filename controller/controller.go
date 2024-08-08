@@ -12,8 +12,10 @@ func SearchProductsHandler( w http.ResponseWriter, r *http.Request ) {
 	json.NewEncoder(w).Encode(product)
 }
 
-func SearchProductsByNameHandler( w http.ResponseWriter, r *http.Request ) {
-
+func SearchProductByNameHandler( w http.ResponseWriter, r *http.Request ) {
+	name := r.URL.Query().Get("name")
+	product := model.SearchProductByName(name)
+	json.NewEncoder(w).Encode(product)
 }
 
 func CreateProductHandler( w http.ResponseWriter, r *http.Request ) {
