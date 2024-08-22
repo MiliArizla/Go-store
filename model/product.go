@@ -3,7 +3,9 @@ package model
 import (
 	"database/sql"
 	"fmt"
+	"strconv"
 
+	"github.com/google/uuid"
 	"github.tools.sap/I586129/loja-digport-backend/db"
 )
 
@@ -94,6 +96,44 @@ func SearchProductByName(productName string) Product {
 	
 }
 
-// func CreateProduct(prod Product) error {
+func CreateProduct(prod Product) error {
+	
+	if productExist(prod.Name) {
+		fmt.Printf("Product already exists: %s\n", prod.Name)
+		return fmt.Errorf("product already exists")
+	}
 
-// }
+	db := db.ConnectToDataBase()
+	defer db.Close()
+	id := uuid.NewString()
+	name := prod.Name
+	description := prod.Description
+	category := prod.Category
+	price := prod.Price
+	quantity := prod.Quantity
+	image := prod.Image
+
+	strInsert := "INSERT INTO product VALUES($1, $2, $3, $4, $5, $6, $7)"
+
+	result, err := db.Exec(strInsert, id, name, description, category, strconv.FormatFloat(price, 'f', 1, 64), strconv.Itoa(quantity), image)
+
+	if err != nil {
+		panic(err.Error())
+	}
+
+	rowsAffected, err := result.RowsAffected()
+	if err != nil {
+		panic(err.Error())
+	}
+
+	fmt.Printf("Product %s created (%d row affected)\n", id, rowsAffected)
+
+	return nil
+
+}
+
+func productExist(nameProduct string) bool {
+	prod := SearchProductByName(nameProduct)
+
+	return prod.Name == nameProduct
+}

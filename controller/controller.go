@@ -19,5 +19,13 @@ func SearchProductByNameHandler( w http.ResponseWriter, r *http.Request ) {
 }
 
 func CreateProductHandler( w http.ResponseWriter, r *http.Request ) {
+	var product model.Product
+	json.NewDecoder(r.Body).Decode(&product)
 
+	error := model.CreateProduct(product)
+	if error != nil {
+		w.WriteHeader(http.StatusBadRequest)
+	} else {
+		w.WriteHeader(http.StatusCreated)
+	}
 }
