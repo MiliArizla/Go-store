@@ -137,3 +137,56 @@ func productExist(nameProduct string) bool {
 
 	return prod.Name == nameProduct
 }
+
+func RemoveProduct(id string) error{
+	db := db.ConnectToDataBase()
+	defer db.Close()
+
+	result, err := db.Exec("DELETE FROM product WHERE id = $1", id)
+	if err != nil {
+		panic(err.Error())
+	}
+	rowsAffected, err := result.RowsAffected()
+	if err != nil {
+		panic(err.Error())
+	}
+
+	fmt.Println("id: ", id)
+	if rowsAffected == 0 {
+		return fmt.Errorf("product not found")
+	}
+
+	fmt.Printf("Product %s deleted (%d row affected)\n", id, rowsAffected)
+
+	return nil
+}
+
+func UpdateProduct(prod Product) error {
+	db := db.ConnectToDataBase()
+	defer db.Close()
+
+	id := prod.ProductId
+	name := prod.Name
+	description := prod.Description
+	// category := prod.Category
+	// price := prod.Price
+	// quantity := prod.Quantity
+	// image := prod.Image
+
+	result, err := db.Exec("UPDATE product SET name= $1, description= $2 where id= $3", name, description, id)
+	if err != nil {
+		panic(err.Error())
+	}
+	rowsAffected, err := result.RowsAffected()
+	if err != nil {
+		panic(err.Error())
+	}
+
+	if rowsAffected == 0 {
+		return fmt.Errorf("product not found")
+	}
+
+	fmt.Printf("Product %s updated (%d row affected)\n", id, rowsAffected)
+
+	return nil
+}
